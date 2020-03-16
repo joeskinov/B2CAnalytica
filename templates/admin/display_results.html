@@ -1,0 +1,269 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+{{ super() }}
+
+{% if current_user.is_authenticated %}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Results
+    <small>Results view</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Resuts</li>
+  </ol>
+</section>
+
+<section class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              <h3 id="overall-count" >{{data_length}}</h3>
+              <p>Over all comments </p>
+          </div>
+          <div class="icon">
+              <i class="ion ion-bag"></i>
+          </div>
+          <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-green">
+        <div class="inner">
+          <h3 id="positive-count" >53</h3>
+    
+          <p>Positive Comments</p>
+      </div>
+      <div class="icon">
+          <i class="ion ion-stats-bars"></i>
+      </div>
+      <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+    </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-yellow">
+        <div class="inner">
+          <h3 id="neutral-count" >44</h3>
+    
+          <p>Neutral Comments</p>
+      </div>
+      <div class="icon">
+          <i class="ion ion-person-add"></i>
+      </div>
+      <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+    </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-red">
+        <div class="inner">
+          <h3 id="negative-count" >65</h3>
+    
+          <p>Negative comments</p>
+      </div>
+      <div class="icon">
+          <i class="ion ion-pie-graph"></i>
+      </div>
+      <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+    </div>
+    </div>
+    <!-- ./col -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <!-- Left col -->
+        <section class="col-lg-8 connectedSortable">
+          <!-- Custom tabs (Charts with tabs)-->
+          <div class="nav-tabs-custom">
+            <!-- Tabs within a box -->
+            <ul class="nav nav-tabs pull-right">
+              <li class="active"><a href="#sentiment-chart" data-toggle="tab">All Sentiments</a></li>
+              <li><a href="#negative-sentiment-chart" data-toggle="tab">Negative Sentiments</a></li>
+              <li><a href="#neutral-sentiment-chart" data-toggle="tab">Neutral Sentiments</a></li>
+              <li><a href="#positive-sentiment-chart" data-toggle="tab">Positive Sentiments</a></li>
+              <li class="pull-left header"><i class="fa fa-inbox"></i> Sales</li>
+          </ul>
+          <div class="tab-content no-padding">
+              <!-- Morris chart  -->
+              <div class="chart tab-pane active" id="sentiment-chart" style="position: relative; height: 300px;"></div>
+              <div class="chart tab-pane" id="negative-sentiment-chart" style="position: relative; height: 300px;"></div>
+              <div class="chart tab-pane" id="neutral-sentiment-chart" style="position: relative; height: 300px;"></div>
+              <div class="chart tab-pane" id="positive-sentiment-chart" style="position: relative; height: 300px;"></div>
+          </div>
+      </div>
+      <!-- /.nav-tabs-custom -->
+      </section>
+      <section class="col-lg-4 connectedSortable">
+        <!-- Add overall sentiments here -->
+        <div class="chart" id="overall-setiment" style="position: relative; height: 300px;"></div>
+      </section>
+    </div>
+  <div class="row">
+  <input name="dataset_id" value="{{dataset_id}}" style="display: none" />
+  <div id="result">
+  </div>
+    
+        
+    <div class="col-12">
+        <div class="box">
+            <div class="box-header">
+              <h1 class="box-title">User: {{username}} {{trans}}</h1>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div class="nav-tabs-custom">
+                    <!-- Tabs within a box -->
+                    <ul class="nav nav-tabs pull-right">
+                      <li class="active"><a href="#all-sentiments" data-toggle="tab">All Sentiments</a></li>
+                      <li><a href="#negative-sentiments" data-toggle="tab">Negative Sentiments</a></li>
+                      <li><a href="#neutral-sentiments" data-toggle="tab">Neutral Sentiments</a></li>
+                      <li><a href="#positive-sentiments" data-toggle="tab">Positive Sentiments</a></li>
+                      <li class="pull-left header"><i class="fa fa-inbox"></i> Sentiments</li>
+                  </ul>
+                  <div class="tab-content no-padding">
+                      
+                    <div class="tab-pane active dataTables_wrapper form-inline dt-bootstrap" id="all-sentiments" ><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row"><div class="col-sm-12">
+                      <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+                        <thead>
+                        <tr role="row">
+                          <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Identification: activate to sort column descending">ID</th>
+                          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Username: activate to sort column ascending">User</th>
+                          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Date created: activate to sort column ascending">Created</th>
+                          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="retweet/fav: activate to sort column ascending">Shares / Likes</th>
+                          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Comment: activate to sort column ascending">Text</th>
+                          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Category: activate to sort column ascending">Sentiment</th>
+                          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="MinMax: activate to sort column ascending">Confidence(neg,neu,pos)</th></tr>
+                        </thead>
+                        <tbody>
+                        {% for key in rawdata %} 
+                          <tr>
+                          <td>{{key.id}}</td>
+                          <td>{{key.username}}</td>
+                          <td>{{key.created_at}}</td>
+                          <td>{{key.retweet_count}} / {{key.favorite_count}}</td>
+                          <td>{{key.text}}<small class="label label-danger"><i class="fa fa-clock-o"></i>{{key.lang}}</small></td>
+                          <td>{{key.category}}</td>
+                          <td>{{key.neg}}, {{key.neu}}, {{key.pos}}</td>
+                          </tr>
+                        {% endfor %}
+                        </tbody>
+                        <tfoot>
+                        <tr><th rowspan="1" colspan="1">Identification</th><th rowspan="1" colspan="1">Username</th><th rowspan="1" colspan="1">Date created</th><th rowspan="1" colspan="1">retweet/fav</th><th rowspan="1" colspan="1">CSS grade</th></tr>
+                        </tfoot>
+                      </table></div></div><div class="row"><div class="col-sm-5"><div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-7"><div class="dataTables_paginate paging_simple_numbers" id="example2_paginate"><ul class="pagination"><li class="paginate_button previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0">Previous</a></li><li class="paginate_button active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0">1</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0">2</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0">3</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0">4</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0">5</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0">6</a></li><li class="paginate_button next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0">Next</a></li></ul></div></div></div>
+                    </div>
+
+                    <div class="tab-pane" id="negative-sentiments" >
+                      <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+                        <thead>
+                        <tr role="row">
+                          <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Identification: activate to sort column descending">ID</th>
+                          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Username: activate to sort column ascending">User</th>
+                          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Date created: activate to sort column ascending">Created</th>
+                          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="retweet/fav: activate to sort column ascending">Shares / Likes</th>
+                          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Comment: activate to sort column ascending">Text</th>
+                          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Sentiment: activate to sort column ascending">Sentiment</th>
+                          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Minmax: activate to sort column ascending">SoftMax(negative)</th></tr>
+                        </thead>
+                        <tbody id="negative-sent" >
+                        
+                        </tbody>
+                        <tfoot>
+                        <tr><th rowspan="1" colspan="1">Identification</th><th rowspan="1" colspan="1">Username</th><th rowspan="1" colspan="1">Date created</th><th rowspan="1" colspan="1">retweet/fav</th><th rowspan="1" colspan="1">CSS grade</th></tr>
+                        </tfoot>
+                      </table>
+                    </div>
+                    <div class="tab-pane" id="neutral-sentiments" >
+                      <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+                        <thead>
+                        <tr role="row">
+                          <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Identification: activate to sort column descending">ID</th>
+                          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Username: activate to sort column ascending">User</th>
+                          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Date created: activate to sort column ascending">Created</th>
+                          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="retweet/fav: activate to sort column ascending">Shares / Likes</th>
+                          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Comment: activate to sort column ascending">Text</th>
+                          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Sentiment: activate to sort column ascending">Sentiment</th>
+                          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="MinMax: activate to sort column ascending">Softmax(neutral)</th></tr>
+                        </thead>
+                        <tbody id="neutral-sent" >
+                        
+                        </tbody>
+                        <tfoot>
+                        <tr><th rowspan="1" colspan="1">Identification</th><th rowspan="1" colspan="1">Username</th><th rowspan="1" colspan="1">Date created</th><th rowspan="1" colspan="1">retweet/fav</th><th rowspan="1" colspan="1">CSS grade</th></tr>
+                        </tfoot>
+                      </table>
+                    </div>
+                    <div class="tab-pane" id="positive-sentiments" >
+                      <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+                        <thead>
+                        <tr role="row">
+                          <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Identification: activate to sort column descending">ID</th>
+                          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Username: activate to sort column ascending">User</th>
+                          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Date created: activate to sort column ascending">Created</th>
+                          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="retweet/fav: activate to sort column ascending">Shares / Likes</th>
+                          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Comment: activate to sort column ascending">Text</th>
+                          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Sentiment: activate to sort column ascending">Sentiment</th>
+                          <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="MinMax: activate to sort column ascending">Softmax(positive)</th></tr>
+                        </thead>
+                        <tbody id="positive-sent" >
+                        
+                        </tbody>
+                        <tfoot>
+                        <tr><th rowspan="1" colspan="1">Identification</th><th rowspan="1" colspan="1">Username</th><th rowspan="1" colspan="1">Date created</th><th rowspan="1" colspan="1">retweet/fav</th><th rowspan="1" colspan="1">CSS grade</th></tr>
+                        </tfoot>
+                      </table>
+                    </div>
+                  </div>
+                  <!-- /.box-body -->
+                </div>
+             </div>
+          </div>
+  <!-- /.row (main row) -->
+
+</section>
+<!-- /.content -->
+{% else %}
+
+<center>
+  <section class="content" style="color: white">
+    <div class="col-sm-12">
+      <h1>Flask-Admin example</h1>
+      <p class="lead">
+        Authentication
+      </p>
+      <p>
+        This example shows how you can use Flask-Admin in an admin template, <br> here I used AdminLTE and <a href="https://pythonhosted.org/Flask-Security/index.html" target="_blank">Flask-Security</a> for authentication.
+      </p>
+      {% if not current_user.is_authenticated %}
+      <p>You can register as a regular user, or log in as a superuser with the following credentials: <br><br>
+
+        email: <b>admin</b> <br>
+        password: <b>admin</b> <br>
+        <br>
+        <p>
+          <a class="btn btn-primary" href="{{ url_for('security.login') }}">Login</a> <a class="btn btn-default" href="{{ url_for('security.register') }}">Register</a>
+        </p>
+        {% endif %}
+        <br>
+        <p>
+          <a class="btn btn-primary" href="/"><i class="glyphicon glyphicon-chevron-left"></i> Back</a>
+        </p>
+      </div>
+    </section>
+  </center>
+
+  <br><br><br><br><br><br><br><br><br>
+  <br><br><br><br><br><br><br><br><br><br>
+  {% endif %}
+
+  {% endblock body %}

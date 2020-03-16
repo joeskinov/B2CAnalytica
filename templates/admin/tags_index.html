@@ -1,0 +1,94 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+{{ super() }}
+
+{% if current_user.is_authenticated %}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Get data
+    <small>Fetch data for analysis</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Analysis</a></li>
+    <li class="active">Get data</li>
+  </ol>
+</section>
+
+<section class="content">
+
+  <div class="row">
+    <!-- Left col -->
+    <section class="container">      
+      
+      <div class="box box-info">
+        <div class="box-header ui-sortable-handle" style="cursor: move;">
+          <i class="fa fa-envelope"></i>
+          <h3 class="box-title">Analysis</h3>
+        </div>
+      </div>
+      <div class="box-body">
+          <form id="upload_data" action="/admin/tags/upload_data" method="post" enctype="multipart/form-data" >
+            <div >
+              <input type="radio" name="source" value="twitter" id="twitter" checked="checked" > Twitter <br>
+              <input type="radio" name="source" value="file" id="file"> File <br>
+            </div>
+            <div class="form-group col-md-6">
+                <input type="text" id="datafrom" class="form-control" name="datafrom" value="twitter" placeholder="source">
+            </div>
+            <div class="form-group col-md-6">
+              <input type="rext" class="form-control" name="username" placeholder="username">
+            </div>
+            <div class="form-group">
+                <input type="file" class="form-control" name="file" placeholder="file">
+            </div>     
+            <div class="box-footer clearfix" style="text-align: center">
+              <button type="submit" class="showLaoder btn btn-primary" id="sendEmail">Get Data
+                <i class="fa fa-arrow-circle-right"></i></button>
+            </div>
+          </form>
+      </div>
+    </section>
+    <!-- /.Left col -->
+
+  </div>
+  <!-- /.row (main row) -->
+
+</section>
+<!-- /.content -->
+{% else %}
+
+<center>
+  <section class="content" style="color: white">
+    <div class="col-sm-12">
+      <h1>Flask-Admin example</h1>
+      <p class="lead">
+        Authentication
+      </p>
+      <p>
+        This example shows how you can use Flask-Admin in an admin template, <br> here I used AdminLTE and <a href="https://pythonhosted.org/Flask-Security/index.html" target="_blank">Flask-Security</a> for authentication.
+      </p>
+      {% if not current_user.is_authenticated %}
+      <p>You can register as a regular user, or log in as a superuser with the following credentials: <br><br>
+
+        email: <b>admin</b> <br>
+        password: <b>admin</b> <br>
+        <br>
+        <p>
+          <a class="btn btn-primary" href="{{ url_for('security.login') }}">Login</a> <a class="btn btn-default" href="{{ url_for('security.register') }}">Register</a>
+        </p>
+        {% endif %}
+        <br>
+        <p>
+          <a class="btn btn-primary" href="/"><i class="glyphicon glyphicon-chevron-left"></i> Back</a>
+        </p>
+      </div>
+    </section>
+  </center>
+
+  <br><br><br><br><br><br><br><br><br>
+  <br><br><br><br><br><br><br><br><br><br>
+  {% endif %}
+
+  {% endblock body %}
