@@ -400,46 +400,13 @@ def evaluate(model, iterator, criterion):
 
 """Let's define our function to tell us how long epochs take."""
 
-import time
 
-def epoch_time(start_time, end_time):
-    elapsed_time = end_time - start_time
-    elapsed_mins = int(elapsed_time / 60)
-    elapsed_secs = int(elapsed_time - (elapsed_mins * 60))
-    return elapsed_mins, elapsed_secs
 
-"""Finally, we train our model..."""
+model.load_state_dict(torch.load('my-model.pt'))
 
-N_EPOCHS = 5
+#test_loss, test_acc = evaluate(model, test_iterator, criterion)
 
-best_valid_loss = float('inf')
-
-for epoch in range(N_EPOCHS):
-
-    start_time = time.time()
-    
-    train_loss, train_acc = train(model, train_iterator, optimizer, criterion)
-    valid_loss, valid_acc = evaluate(model, valid_iterator, criterion)
-    
-    end_time = time.time()
-
-    epoch_mins, epoch_secs = epoch_time(start_time, end_time)
-    
-    if valid_loss < best_valid_loss:
-        best_valid_loss = valid_loss
-        torch.save(model.state_dict(), 'tut4-model.pt')
-    
-    print(f'Epoch: {epoch+1:02} | Epoch Time: {epoch_mins}m {epoch_secs}s')
-    print(f'\tTrain Loss: {train_loss:.3f} | Train Acc: {train_acc*100:.2f}%')
-    print(f'\t Val. Loss: {valid_loss:.3f} |  Val. Acc: {valid_acc*100:.2f}%')
-
-"""We get test results comparable to the previous 2 models!"""
-
-model.load_state_dict(torch.load('tut4-model.pt'))
-
-test_loss, test_acc = evaluate(model, test_iterator, criterion)
-
-print(f'Test Loss: {test_loss:.3f} | Test Acc: {test_acc*100:.2f}%')
+#print(f'Test Loss: {test_loss:.3f} | Test Acc: {test_acc*100:.2f}%')
 
 """## User Input
 
@@ -464,8 +431,8 @@ def predict_sentiment(model, sentence, min_len = 5):
 
 """An example negative review..."""
 
-predict_sentiment(model, "This film is terrible")
+print(predict_sentiment(model, "This film is terrible"))
 
 """An example positive review..."""
 
-predict_sentiment(model, "This film is great")
+print(predict_sentiment(model, "This film is great"))
